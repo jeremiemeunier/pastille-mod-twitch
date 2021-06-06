@@ -1,0 +1,14 @@
+{
+    "countdown": "300000",
+    "version": "v0.3",
+    "debug": false,
+    "waiting": true,
+    "channel": {
+        "debug": "la-sandbox",
+        "announce": "annonces"
+    },
+    "api": {
+        "twitch_stream": "https://api.twitch.tv/helix/streams?user_id=",
+        "twitch_oauth": "https://id.twitch.tv/oauth2/token?client_id="
+    }
+}
