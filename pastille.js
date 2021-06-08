@@ -3,11 +3,11 @@ const path = require('path');
 const fs = require('fs');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let booty_settings = JSON.parse(fs.readFileSync('booty.json'));
+let booty_settings = JSON.parse(fs.readFileSync('pastille.json'));
 let secret_settings = JSON.parse(fs.readFileSync('secret.json'));
 let client = new Discord.Client();
 
-logger(`\x1b[42m\x1b[30m booty JS  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
+logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
 
 if(booty_settings.debug == true) {
 	logger(`\x1b[43m\x1b[30m DEBUG IS ENABLED \x1b[0m `, false);
@@ -18,7 +18,7 @@ if(booty_settings.debug == true) {
 }
 
 function logger(txt, timed = true) {
-	let logs_tag = `\x1b[32mbootyJS[${booty_settings.version}]`;
+	let logs_tag = `\x1b[32mpastille[${booty_settings.version}]`;
 
 	if(timed == true) {
 		logs_tag += ` ${dateReturn()} \x1b[0m `;
@@ -108,7 +108,7 @@ function boot() {
 	logger(`send a message in \x1b[34m${booty_settings.channel.debug}\x1b[0m`, false);
 	debug.send(`i'm in the place and i'm listening for the futur streaming`);
 	logger(`is initialized at \x1b[34m${dateReturn(new Date())}\x1b[0m`, false);
-	logger(`\x1b[42m\x1b[30m booty JS  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
+	logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
 	
 	if(booty_settings.waiting == true) {
 		setInterval(function() {
