@@ -1,2 +1,3 @@
-# bootyjs
- Create a discord js bot for notification your community when your favourite or friendly streamer start a live
+# pastille
+
+ Create a discord js script with discordjs use for send a message to announce when a configured streamer start live
