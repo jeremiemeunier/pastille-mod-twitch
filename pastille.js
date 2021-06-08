@@ -31,7 +31,7 @@ function logger(txt, timed = true) {
 	if(ajd.getMonth() < 10) { ajdMonth = `0${ajd.getMonth()}`; } else { ajdMonth = ajd.getMonth(); }
 
 	let ajd_compose = `${ajdDate}-${ajdMonth}-${ajd.getFullYear()}`;
-	fs.writeFile(`logs/booty-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
+	fs.writeFile(`logs/pastille-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
 		if(err) {
 			console.log(err);
 			return;
@@ -106,7 +106,24 @@ function boot() {
 	}
 
 	logger(`send a message in \x1b[34m${booty_settings.channel.debug}\x1b[0m`, false);
-	debug.send(`i'm in the place and i'm listening for the futur streaming`);
+	debug.send({embed: {
+		color: "#5865f2",
+		title: "pastille as initialized",
+		description: "pastille[live_notif_mod] as full operate at " + dateReturn(new Date()),
+		fields: [{
+			name: "Debug",
+			value: booty_settings.debug
+		},
+		{
+			name: "Announce channel",
+			value: "<#" + announce + ">"
+		}],
+		timestamp: new Date(),
+		footer: {
+			icon_url: client.user.avatarURL,
+			text: "— pastille " + booty_settings.version
+		}
+	}});
 	logger(`is initialized at \x1b[34m${dateReturn(new Date())}\x1b[0m`, false);
 	logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
 	
