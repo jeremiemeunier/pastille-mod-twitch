@@ -117,6 +117,10 @@ function boot() {
 		{
 			name: "Announce channel",
 			value: "<#" + announce + ">"
+		},
+		{
+			name: "Announce role",
+			value: "<@&" + booty_settings.role.announce.toString() + ">"
 		}],
 		timestamp: new Date(),
 		footer: {
@@ -162,14 +166,14 @@ function isonliveid(data, settings) {
 							logger(`ETAT : [\x1b[32mONLINE \x1b[0m (${data.twitch_id})]`); }
 
 						if(start_stream(twitchResponse.started_at) && booty_settings.debug == false) {
-							settings.announce.send(`Hey @everyone ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
+							settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 							logger(`\x1b[41m Send a message \x1b[47m\x1b[30m ${data.twitch_name} \x1b[0m`);
 							logger(`\x1b[41m Start at ${twitchResponse.started_at} \x1b[47m\x1b[30m ${data.twitch_name} \x1b[0m `);
 						}
 						else if(start_stream(twitchResponse.started_at) && booty_settings.debug == true) {
 							logger(`\x1b[41m Envoie le message \x1b[0m `);
 							logger(`\x1b[41m Start at ${twitchResponse.started_at} \x1b[47m\x1b[30m ${data.twitch_name} \x1b[0m `);
-							settings.debug.send(`Hey @everyone ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
+							settings.debug.send(`Hey <@&${booty_settings.role.announce.toString()}> ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 						}
 						else {
 							logger(`\x1b[41m No message \x1b[47m\x1b[30m ${data.twitch_name} \x1b[0m `);
