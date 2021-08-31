@@ -28,7 +28,7 @@ function logger(txt, timed = true) {
 	let ajd = new Date();
 
 	if(ajd.getDate() < 10) { ajdDate = `0${ajd.getDate()}`; } else { ajdDate = ajd.getDate(); }
-	if(ajd.getMonth() < 10) { ajdMonth = `0${ajd.getMonth()}`; } else { ajdMonth = ajd.getMonth(); }
+	if(Number(ajd.getMonth() + 1) < 10) { ajdMonth = `0${Number(ajd.getMonth())+1}`; } else { ajdMonth = Number(ajd.getMonth())+1; }
 
 	let ajd_compose = `${ajdDate}-${ajdMonth}-${ajd.getFullYear()}`;
 	fs.writeFile(`logs/pastille-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
@@ -166,7 +166,7 @@ function isonliveid(data, settings) {
 							logger(`ETAT : [\x1b[32mONLINE \x1b[0m (${data.twitch_id})]`); }
 
 						if(start_stream(twitchResponse.started_at) && booty_settings.debug == false) {
-							if(data.discord_id !== '') {
+							if(data.discord_id !== undefined) {
 								settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 							} else {
 								settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.twitch_name} est actuellement en live sur https://twitch.tv/${data.twitch_name} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
