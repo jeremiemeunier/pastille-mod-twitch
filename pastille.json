@@ -4,12 +4,12 @@
     "debug": false,
     "waiting": true,
     "channel": {
-        "debug": "la-sandbox",
-        "announce": "annonces"
+        "debug": "pastille-nous-parles",
+        "announce": "la-commère"
     },
     "role": {
-        "announce": "853051693193625620",
-        "community": ""
+        "announce": "882582552538390549",
+        "community": "882588835635142727"
     },
     "api": {
         "twitch_stream": "https://api.twitch.tv/helix/streams?user_id=",
