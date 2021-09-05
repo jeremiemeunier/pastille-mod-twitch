@@ -3,8 +3,8 @@ const path = require('path');
 const fs = require('fs');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let booty_settings = JSON.parse(fs.readFileSync('pastille.json'));
-let secret_settings = JSON.parse(fs.readFileSync('secret.json'));
+let booty_settings = JSON.parse(fs.readFileSync('data/pastille.json'));
+let secret_settings = JSON.parse(fs.readFileSync('data/secret.json'));
 let client = new Discord.Client();
 
 logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
@@ -50,7 +50,7 @@ function start_stream(str, mtn) {
 }
 
 function discordBotLive(settings) {
-	var JsonUsers = fs.readFileSync('streamer.json');
+	var JsonUsers = fs.readFileSync('data/streamer.json');
 	var dataUsers = JSON.parse(JsonUsers);
 	var dataLenght = Object.keys(dataUsers).length;
 
