@@ -56,6 +56,7 @@ function discordBotLive(settings) {
 
 	for(var i = 0; i < dataLenght; i++) {
 		let data = dataUsers[i];
+		if(booty_settings.debug == true) { logger(`\x1b[43m\x1b[30m DEBUG : Avancement : ${i}/${dataLenght - 1})] \x1b[0m `); }
 		isonliveid(data, settings);
 	}
 }
