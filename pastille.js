@@ -113,7 +113,7 @@ function boot() {
 		.setDescription('pastille[live_notif_mod] as full operate at ' + dateReturn(new Date()))
 		.addFields(
 			{ name: 'Debug', value: booty_settings.debug.toString() },
-			{ name: 'Announce channel', value: '<' + announce.toString() + '>' },
+			{ name: 'Announce channel', value: announce.toString() },
 			{ name: 'Announce role', value: '<@&' + booty_settings.role.announce.toString() + '>' }
 		)
 		.setTimestamp()
