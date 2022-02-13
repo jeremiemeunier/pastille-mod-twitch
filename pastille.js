@@ -1,11 +1,11 @@
-const Discord = require('discord.js')
-const path = require('path');
+const { Client, Intents, MessageEmbed } = require('discord.js');
+const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_MESSAGES] });
+
 const fs = require('fs');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
 let booty_settings = JSON.parse(fs.readFileSync('data/pastille.json'));
 let secret_settings = JSON.parse(fs.readFileSync('data/secret.json'));
-let client = new Discord.Client();
 
 logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
 
@@ -30,7 +30,7 @@ function logger(txt, timed = true) {
 	if(ajd.getDate() < 10) { ajdDate = `0${ajd.getDate()}`; } else { ajdDate = ajd.getDate(); }
 	if(Number(ajd.getMonth() + 1) < 10) { ajdMonth = `0${Number(ajd.getMonth())+1}`; } else { ajdMonth = Number(ajd.getMonth())+1; }
 
-	let ajd_compose = `${ajdDate}-${ajdMonth}-${ajd.getFullYear()}`;
+	let ajd_compose = `${ajdMonth}-${ajdDate}-${ajd.getFullYear()}`;
 	fs.writeFile(`logs/pastille-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
 		if(err) {
 			console.log(err);
@@ -106,28 +106,20 @@ function boot() {
 	}
 
 	logger(`send a message in \x1b[34m${booty_settings.channel.debug}\x1b[0m`, false);
-	debug.send({embed: {
-		color: "#5865f2",
-		title: "pastille as initialized",
-		description: "pastille[live_notif_mod] as full operate at " + dateReturn(new Date()),
-		fields: [{
-			name: "Debug",
-			value: booty_settings.debug
-		},
-		{
-			name: "Announce channel",
-			value: "<#" + announce + ">"
-		},
-		{
-			name: "Announce role",
-			value: "<@&" + booty_settings.role.announce.toString() + ">"
-		}],
-		timestamp: new Date(),
-		footer: {
-			icon_url: client.user.avatarURL,
-			text: "— pastille " + booty_settings.version
-		}
-	}});
+	const bootEmbed = new MessageEmbed()
+		.setColor('#5865f2')
+		.setTitle('pastille as initialized')
+		.setDescription('pastille[live_notif_mod] as full operate at ' + dateReturn(new Date()))
+		.addFields(
+			{ name: 'Debug', value: booty_settings.debug.toString() },
+			{ name: 'Announce channel', value: '<' + announce.toString() + '>' },
+			{ name: 'Announce role', value: '<@&' + booty_settings.role.announce.toString() + '>' }
+		)
+		.setTimestamp()
+		.setFooter({ text: '— pastille ' + booty_settings.version.toString() });
+		
+	debug.send({ embeds: [bootEmbed] });
+
 	logger(`is initialized at \x1b[34m${dateReturn(new Date())}\x1b[0m`, false);
 	logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
 	
@@ -174,7 +166,7 @@ function isonliveid(data, settings) {
 								}
 							} else {
 								if(data.notif_line !== undefined) {
-									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.twitch_name.toString()} est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()}. ${data.notif_line}`);
+									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.twitch_name.toString()} est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()}. ${data.notif_line}. Il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 								} else {
 									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.twitch_name.toString()} est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 								}
