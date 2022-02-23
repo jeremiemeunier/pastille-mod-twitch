@@ -4,10 +4,10 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_
 const fs = require('fs');
 const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
-let booty_settings = JSON.parse(fs.readFileSync('data/pastille.json'));
+let booty_settings = JSON.parse(fs.readFileSync('data/mod_twitch.json'));
 let secret_settings = JSON.parse(fs.readFileSync('data/secret.json'));
 
-logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
+logger(`\x1b[42m\x1b[30m mod_twitch  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
 
 if(booty_settings.debug == true) {
 	logger(`\x1b[43m\x1b[30m DEBUG IS ENABLED \x1b[0m `, false);
@@ -18,7 +18,7 @@ if(booty_settings.debug == true) {
 }
 
 function logger(txt, timed = true) {
-	let logs_tag = `\x1b[32mpastille[${booty_settings.version}]`;
+	let logs_tag = `\x1b[32mmod_twitch[${booty_settings.version}]`;
 
 	if(timed == true) {
 		logs_tag += ` ${dateReturn()} \x1b[0m `;
@@ -31,7 +31,7 @@ function logger(txt, timed = true) {
 	if(Number(ajd.getMonth() + 1) < 10) { ajdMonth = `0${Number(ajd.getMonth())+1}`; } else { ajdMonth = Number(ajd.getMonth())+1; }
 
 	let ajd_compose = `${ajdMonth}-${ajdDate}-${ajd.getFullYear()}`;
-	fs.writeFile(`logs/pastille-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
+	fs.writeFile(`logs/mod_twitch-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
 		if(err) {
 			console.log(err);
 			return;
@@ -109,20 +109,20 @@ function boot() {
 	logger(`send a message in \x1b[34m${booty_settings.channel.debug}\x1b[0m`, false);
 	const bootEmbed = new MessageEmbed()
 		.setColor('#5865f2')
-		.setTitle('pastille as initialized')
-		.setDescription('pastille[live_notif_mod] as full operate at ' + dateReturn(new Date()))
+		.setTitle('mod_twitch as initialized')
+		.setDescription('mod_twitch[live_notif_mod] as full operate at ' + dateReturn(new Date()))
 		.addFields(
 			{ name: 'Debug', value: booty_settings.debug.toString() },
 			{ name: 'Announce channel', value: announce.toString() },
 			{ name: 'Announce role', value: '<@&' + booty_settings.role.announce.toString() + '>' }
 		)
 		.setTimestamp()
-		.setFooter({ text: '— pastille ' + booty_settings.version.toString() });
+		.setFooter({ text: '— mod_twitch ' + booty_settings.version.toString() });
 		
 	debug.send({ embeds: [bootEmbed] });
 
 	logger(`is initialized at \x1b[34m${dateReturn(new Date())}\x1b[0m`, false);
-	logger(`\x1b[42m\x1b[30m pastille  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
+	logger(`\x1b[42m\x1b[30m mod_twitch  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
 	
 	if(booty_settings.waiting == true) {
 		setInterval(function() {
