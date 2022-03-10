@@ -7,7 +7,7 @@ const XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 let booty_settings = JSON.parse(fs.readFileSync('data/mod_twitch.json'));
 let secret_settings = JSON.parse(fs.readFileSync('data/secret.json'));
 
-logger(`\x1b[42m\x1b[30m mod_twitch  [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
+logger(`\x1b[42m\x1b[30m mod_twitch [${booty_settings.version}] INITIALIZE \x1b[0m `, false);
 
 if(booty_settings.debug == true) {
 	logger(`\x1b[43m\x1b[30m DEBUG IS ENABLED \x1b[0m `, false);
@@ -122,7 +122,7 @@ function boot() {
 	debug.send({ embeds: [bootEmbed] });
 
 	logger(`is initialized at \x1b[34m${dateReturn(new Date())}\x1b[0m`, false);
-	logger(`\x1b[42m\x1b[30m mod_twitch  [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
+	logger(`\x1b[42m\x1b[30m mod_twitch [${booty_settings.version}] INITIALIZED \x1b[0m `, false);
 	
 	if(booty_settings.waiting == true) {
 		setInterval(function() {
@@ -149,7 +149,7 @@ function isonliveid(data, settings) {
 			let twitchCode = JSON.parse(twitchAuth.responseText);
 
 			twitchData.onreadystatechange = function() {
-				if(xhrCheck(twitchData) === true) {
+				if(xhrCheck(twitchData) === true && twitchData.status === 200) {
 					if(booty_settings.debug == true) {
 						logger(`DATA : [\x1b[32mDONE\x1b[0m  (STATUS : ${twitchData.status})(STATE : ${twitchData.readyState})]`); }
 					let twitchResponse = JSON.parse(twitchData.responseText).data[0];
