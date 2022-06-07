@@ -2,6 +2,7 @@
 
  Create a discord js bot addon's for notification your community when your favourite or friendly (if is in the configuration file) streamer start a live on twitch.
  
+ > I am currently working on a shell script solution to automatically install and launch pastille-mod-twitch </blockquote>
  
  ## Configuration
  
