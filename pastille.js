@@ -161,13 +161,14 @@ function isonliveid(data, settings) {
 						if(start_stream(twitchResponse.started_at) && booty_settings.debug == false) {
 							if(data.discord_id !== undefined) {
 								if(data.notif_line !== undefined) {
-									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()}. ${data.notif_line}`);
+									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.notif_line.toString()} <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()}. ${data.notif_line}`);
+									data.discord_id.roles.add(booty_settings.role.onlive.toString());
 								} else {
 									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! <@${data.discord_id}> est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 								}
 							} else {
 								if(data.notif_line !== undefined) {
-									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.twitch_name.toString()} est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()}. ${data.notif_line}. Il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
+									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.notif_line.toString()} ${data.twitch_name.toString()} est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()}. ${data.notif_line}. Il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 								} else {
 									settings.announce.send(`Hey <@&${booty_settings.role.announce.toString()}> ! ${data.twitch_name.toString()} est actuellement en live sur https://twitch.tv/${data.twitch_name.toString()} il stream **${twitchResponse.title}** sur **${twitchResponse.game_name}**`);
 								}
@@ -200,6 +201,41 @@ function isonliveid(data, settings) {
 	twitchAuth.open('POST', twitchToken, false);
 	twitchAuth.send();
 }
+
+client.on('messageCreate', msg=> {
+	if(msg.author.bot) return
+	else {
+	  if(msg.content.startsWith("!")) {
+		args = msg.content.split(" ");
+		if(args[0] === '!twitch') {
+			var json_streamerList = fs.readFileSync('data/streamer.json');
+			var parsed_streamerList = JSON.parse(json_streamerList);
+			var length_streamerList = Object.keys(parsed_streamerList).length;
+
+			if(args[1] != '') {}
+			if(args[1] === 'list') {
+				let txt = "Voici la liste des streamer que l'on suit :\r\n";
+				for(var i = 0; i < length_streamerList; i++) {
+				let data = parsed_streamerList[i];
+				txt += `- ${data.twitch_name.toString()} (https://twitch.tv/${data.twitch_name.toString()})\r\n`;
+				}
+				
+				txt += "\r\n\r\nPour savoir quand est-ce qu'ils sont en live ajoute toi le rôle notif dans <#882582553071079490> avec la commande `!role add 2`";
+				msg.reply(txt);
+			}
+			if(args[1] === 'annonce') {
+				msg.reply('Cette commande `' + msg.content + '` est actuellement désactivée.');
+
+				// let server = client.guilds.cache.get(secret_settings.GUILD_ID);
+				// let announce = client.channels.cache.find(channel => channel.name === booty_settings.channel.announce)
+				// let debug = client.channels.cache.find(channel => channel.name === booty_settings.channel.debug)
+				// let every = server.roles.cache.find(role => role.name === '@everyone');
+				// discordBotLive({"announce":announce,"debug":debug,"every":every});
+			}
+		}
+	  }
+	}
+});
 
 client.on('ready', () => { boot(); });
 client.login(secret_settings.BOT_TOKEN);
