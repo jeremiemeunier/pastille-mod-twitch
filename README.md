@@ -1,6 +1,6 @@
 # pastille
 
-### Warning ! All of developement as being transfer to [pastille-bot](https://github.com/jeremiemeunier/pastille-bot).
+### Warning ! All of developement has been transfered to [pastille-bot](https://github.com/jeremiemeunier/pastille-bot).
 
 
  Create a discord js bot addon's for notification your community when your favourite or friendly (if is in the configuration file) streamer start a live on twitch.
