@@ -17,12 +17,10 @@ function fc_stream_start(str, mtn) {
 
 	if(str > pre && str < nex) { return true; } else { return false; }
 }
-
 function fc_xhr_verifier(xhr) {
 	if(xhr.readyState === 4 && xhr.status === 200) { return true; }
 	else { return false; }
 }
-
 function fc_dateReturn(ajd) {
 	let ret = '';
 
@@ -38,7 +36,42 @@ function fc_dateReturn(ajd) {
 
 	return ret;
 }
+function fc_logger(txt, timed = true) {
+	let logs_tag = `\x1b[32mmod_twitch[${config_settings.version}]`;
 
+	if(timed == true) {
+		logs_tag += ` ${dateReturn()} \x1b[0m `;
+	} else { logs_tag += `\x1b[0m `; }
+
+	console.log(`${logs_tag}${txt}`);
+	let ajd = new Date();
+
+	if(ajd.getDate() < 10) { ajdDate = `0${ajd.getDate()}`; } else { ajdDate = ajd.getDate(); }
+	if(Number(ajd.getMonth() + 1) < 10) { ajdMonth = `0${Number(ajd.getMonth())+1}`; } else { ajdMonth = Number(ajd.getMonth())+1; }
+
+	let ajd_compose = `${ajdMonth}-${ajdDate}-${ajd.getFullYear()}`;
+	fs.writeFile(`logs/mod_twitch-${ajd_compose}.log`, `${logs_tag}${txt}\r\n`, { flag: 'a' }, err => {
+		if(err) {
+			console.log(err);
+			return;
+		}
+	});
+}
+function fc_startlog() {
+    let server = client.guilds.cache.get(secret_settings.GUILD_ID);
+	let announce = client.channels.cache.find(channel => channel.name === config_settings.channel.announce)
+	let debug = client.channels.cache.find(channel => channel.name === config_settings.channel.debug)
+	let every = server.roles.cache.find(role => role.name === '@everyone');
+
+    fc_logger(`as \x1b[34m${client.user.tag}\x1b[0m`, false);
+    fc_logger(`\x1b[43m\x1b[30m START VAR SETTINGS \x1b[0m `, false);
+    fc_logger(`as set channel \x1b[34m${config_settings.channel.announce}\x1b[0m to \x1b[34m${announce.id}\x1b[0m`, false);
+    fc_logger(`as set channel \x1b[34m${config_settings.channel.debug}\x1b[0m to \x1b[34m${debug.id}\x1b[0m`, false);
+    fc_logger(`as set everyone to \x1b[34m${every.id}\x1b[0m`, false);
+    fc_logger(`\x1b[43m\x1b[30m END VAR SETTINGS \x1b[0m `, false);
+    fc_logger(`is initialized at \x1b[34m${fc_dateReturn(new Date())}\x1b[0m`, false);
+	fc_logger(`\x1b[42m\x1b[30m mod_twitch [${config_settings.version}] INITIALIZED \x1b[0m `, false);
+}
 
 // mod_twitch function
 
@@ -75,11 +108,8 @@ function fc_isOnLive(data, settings) {
                                                                     .setStyle(ButtonStyle.Link)
                                                                     .setURL(`https://twitch.tv/${data.twitch_name.toString()}`)
                                                         );
-                            let live_announce = new EmbedBuilder()
-                                                        .setColor("6441A4")
-                                                        .setDescription(`${data.twitch_name.toString()} est actuellement en live. Il stream : **${_API_data_response.title}** sur **${_API_data_response.game_name}**`)
-                                                        .setThumbnail(_API_data_response.thumbnail_url);
-                            settings.announce.send({ content: `Hey <@&${config_settings.role.announce.toString()}> !`, embeds: [live_announce], components: [live_button] });
+                            let live_txt = `Hey <@&${config_settings.role.announce.toString()}> ! ${data.twitch_name.toString()} est actuellement en live. Il stream : **${_API_data_response.title}** sur **${_API_data_response.game_name}**`;
+                            settings.announce.send({ content: live_txt, components: [live_button] });
                         }
                     }
                 }
@@ -112,6 +142,7 @@ function fc_booter() {
                             .setTimestamp()
                             .setFooter({ text: '— mod_twitch ' + config_settings.version.toString() });
 	debug.send({ embeds: [bootEmbed] });
+    fc_startlog();
 
 	if(config_settings.waiting == true) {
 		setInterval(function() {
